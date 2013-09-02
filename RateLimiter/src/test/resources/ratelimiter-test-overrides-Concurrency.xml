@@ -1,0 +1,9 @@
+<rate-limiter-overrides>
+	<rate-limiter-override strategy-class-name="com.ccbill.clessidra.tests.customstrategies.TestConcurrencyLimiterStrategy">
+		<method-group group-name="*">
+			<strategy-group group-key="2">
+				<property-override propertyName="concurrencyLimit" propertyValue="15" />
+			</strategy-group>
+		</method-group>
+	</rate-limiter-override>
+</rate-limiter-overrides>

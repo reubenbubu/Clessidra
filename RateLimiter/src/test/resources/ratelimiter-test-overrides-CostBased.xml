@@ -1,0 +1,10 @@
+<rate-limiter-overrides>
+	<rate-limiter-override strategy-class-name="com.ccbill.clessidra.tests.customstrategies.TestCostBasedLimiterStrategy">
+		<method-group group-name="*">
+			<strategy-group group-key="2">
+				<property-override propertyName="costLimit" propertyValue="120" />
+				<property-override propertyName="perTimePeriodSeconds" propertyValue="5" />
+			</strategy-group>
+		</method-group>
+	</rate-limiter-override>
+</rate-limiter-overrides>

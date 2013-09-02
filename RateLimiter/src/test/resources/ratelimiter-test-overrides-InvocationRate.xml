@@ -1,0 +1,14 @@
+<rate-limiter-overrides>
+	<rate-limiter-override strategy-class-name="com.ccbill.clessidra.tests.customstrategies.TestInvocationRateLimiterStrategy">
+		<method-group group-name="*">
+			<strategy-group group-key="2">
+				<property-override propertyName="numberOfInvocationsLimit" propertyValue="50" />
+				<property-override propertyName="perTimePeriodSeconds" propertyValue="5" />
+			</strategy-group>
+			<strategy-group group-key="5">
+				<property-override propertyName="numberOfInvocationsLimit" propertyValue="1000000" />
+				<property-override propertyName="perTimePeriodSeconds" propertyValue="10" />
+			</strategy-group>
+		</method-group>
+	</rate-limiter-override>
+</rate-limiter-overrides>

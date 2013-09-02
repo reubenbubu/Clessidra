@@ -1,0 +1,8 @@
+Project Name : Clessidra
+
+Maven Artifact : com.ccbill:clessidra
+
+Description : 
+
+A library used to control the inflow of requests to methods annotated with the @RateLimited annotation, 
+by using a set of strategies.  
