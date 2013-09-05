@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- import spring configuration -->
+	<import resource="classpath:beans.clessidra.xml"></import>
+
+	<bean name="defaultLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultInvocationRateLimiterStrategy">
+		<constructor-arg name="numberOfInvocationsLimit" value="4" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+
+</beans>

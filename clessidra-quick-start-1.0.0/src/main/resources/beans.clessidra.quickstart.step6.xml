@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- import spring configuration -->
+	<import resource="classpath:beans.clessidra.xml"></import>
+	<task:annotation-driven />
+
+
+	<bean name="invocationRateLimiter" class="com.ccbill.clessidra.quickstart.step6.CustomInvocationRateLimiterStrategy">
+		<constructor-arg name="numberOfInvocationsLimit" value="4" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+
+
+	<bean name="concurrencyLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultConcurrencyLimiterStrategy">
+		<constructor-arg name="concurrencyLimit" value="4" />
+	</bean>
+	
+	<!-- Changed the class to CustomCostBasedLimiterStrategy and set the costLimit parameter -->
+	<bean name="customCostBasedLimiter" class="com.ccbill.clessidra.quickstart.step6.CustomCostBasedLimiterStrategy">
+		<constructor-arg name="costLimit" value="20" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+
+	<!-- Changed the first bean reference to "customCostBasedLimiter" -->
+	<bean name="costBasedAndConcurrencyChained" class="com.ccbill.clessidra.strategy.AbstractLimiterStrategy"
+		factory-method="createInstance">
+		<constructor-arg name="limiterStrategies">
+			<list value-type="com.ccbill.clessidra.strategy.AbstractLimiterStrategy">
+				<ref bean="customCostBasedLimiter" />
+				<ref bean="concurrencyLimiter" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+
+</beans>

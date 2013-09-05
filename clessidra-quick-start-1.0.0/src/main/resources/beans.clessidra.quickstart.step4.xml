@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- import spring configuration -->
+	<import resource="classpath:beans.clessidra.xml"></import>
+	<task:annotation-driven />
+
+
+	<bean name="invocationRateLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultInvocationRateLimiterStrategy">
+		<constructor-arg name="numberOfInvocationsLimit" value="4" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+
+
+	<bean name="concurrencyLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultConcurrencyLimiterStrategy">
+		<constructor-arg name="concurrencyLimit" value="4" />
+	</bean>
+
+	<!-- Added -->
+	<bean name="invocationRateLimiter_2" class="com.ccbill.clessidra.strategy.defaults.DefaultInvocationRateLimiterStrategy">
+		<constructor-arg name="numberOfInvocationsLimit" value="3" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+
+	<!-- Added -->
+	<!-- This will chain the 2 beans referenced in the list, "invocationRateLimiter_2" will now have a reference to "concurrencyLimiter" as the next strategy -->
+	<bean name="invocationRateAndConcurrencyChained" class="com.ccbill.clessidra.strategy.AbstractLimiterStrategy"
+		factory-method="createInstance">
+		<constructor-arg name="limiterStrategies">
+			<list value-type="com.ccbill.clessidra.strategy.AbstractLimiterStrategy">
+				<ref bean="invocationRateLimiter_2" />
+				<ref bean="concurrencyLimiter" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+
+</beans>

@@ -1,0 +1,16 @@
+<rate-limiter-overrides>
+	<rate-limiter-override strategy-class-name="com.ccbill.clessidra.quickstart.step7.CustomInvocationRateLimiterStrategy">
+		<method-group group-name="provisioning*">
+			<strategy-group group-key="2">
+				<property-override propertyName="numberOfInvocationsLimit" propertyValue="12" />
+			</strategy-group>
+		</method-group>
+	</rate-limiter-override>
+	<rate-limiter-override strategy-class-name="com.ccbill.clessidra.quickstart.step7.CustomCostBasedLimiterStrategy">
+		<method-group group-name="">
+			<strategy-group group-key="2">
+				<property-override propertyName="costLimit" propertyValue="7" />
+			</strategy-group>
+		</method-group>
+	</rate-limiter-override>
+</rate-limiter-overrides>
