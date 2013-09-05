@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>U:\GitProjects\clessidra\clessidra\.release-notes.md.html</title>
+
+
+<style type="text/css">
+
+.markdown-body {
+    border: 1px solid #CACACA;
+    padding: 30px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.markdown-body h2 {
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.markdown-body code {
+    white-space: nowrap;
+}
+
+.markdown-body code, .markdown-body tt {
+    background-color: #F8F8F8;
+    border: 1px solid #EAEAEA;
+    border-radius: 3px 3px 3px 3px;
+    margin: 0 2px;
+    padding: 0 5px;
+}
+
+.markdown-body .highlight pre, .markdown-body pre {
+    background-color: #F8F8F8;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+}
+
+.markdown-body img {
+    border: 0 none;
+}
+
+pre, code, tt {
+    font-family: Consolas,"Liberation Mono",Courier,monospace;
+    font-size: 12px;
+}
+</style>
+
+
+<script type="text/javascript">
+
+function getDocumentScrollTop() 
+{
+   var res = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0;
+   // alert(res);
+   return res;
+}
+
+function setDocumentScrollTop(ypos) 
+{
+	window.scrollTo(0, ypos);
+}
+
+</script>
+
+
+</head>
+<body class="markdown-body">
+<h1>
+<a name="clessidra-release-notes" class="anchor" href="#clessidra-release-notes"><span class="octicon octicon-link"></span></a>Clessidra Release Notes</h1>
+
+<h1></h1>
+
+<h2>
+<a name="100" class="anchor" href="#100"><span class="octicon octicon-link"></span></a>1.0.0</h2>
+
+<ul>
+<li>Enhanced property override provider. Added support for wildcards in property override configuration strategy group key and method group.</li>
+<li>Fixed a bug in BaseRateLimiter where exceptions thrown from a rate limited method were causing the post invocation cleanup not to be called.</li>
+<li>Pulled out the call to the next chained strategy from the base limiters to AbstractLimiterStrategy in callNextChainedLimiterStrategy()</li>
+<li>Changed maven artifact group to com.ccbill</li>
+</ul><h2>
+<a name="001" class="anchor" href="#001"><span class="octicon octicon-link"></span></a>0.0.1</h2>
+
+<ul>
+<li>Initial version </li>
+</ul>
+</body>
+</html>

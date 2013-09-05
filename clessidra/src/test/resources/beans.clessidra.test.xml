@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- import spring configuration -->
+	<import resource="classpath:beans.clessidra.xml"></import>
+
+	<!-- Needed for asynchronous tests -->
+	<task:annotation-driven />
+
+	<!-- InvocationRateLimiterTests -->
+	<bean name="invocationRateLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultInvocationRateLimiterStrategy">
+		<constructor-arg name="numberOfInvocationsLimit" value="10" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+
+	<!-- ConcurrencyLimiterTests -->
+	<bean name="concurrencyLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultConcurrencyLimiterStrategy">
+		<constructor-arg name="concurrencyLimit" value="5"></constructor-arg>
+	</bean>
+
+	<!-- CostBasedLimiterTests -->
+	<bean name="costBasedLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultCostBasedLimiterStrategy">
+		<constructor-arg name="costLimit" value="10"></constructor-arg>
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+
+	<!-- ChainedLimiterTests -->
+	<bean name="chainedTestLimiterChain1" class="com.ccbill.clessidra.tests.customstrategies.TestInvocationRateLimiterStrategy">
+		<constructor-arg name="numberOfInvocationsLimit" value="10" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+	<bean name="chainedTestLimiterChain2" class="com.ccbill.clessidra.tests.customstrategies.TestConcurrencyLimiterStrategy">
+		<constructor-arg name="concurrencyLimit" value="10"></constructor-arg>
+	</bean>
+	<bean name="chainedTestLimiterChain3" class="com.ccbill.clessidra.tests.customstrategies.TestCostBasedLimiterStrategy">
+		<constructor-arg name="costLimit" value="60"></constructor-arg>
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+	</bean>
+	<bean name="chainedTestLimiterChain" class="com.ccbill.clessidra.strategy.AbstractLimiterStrategy" factory-method="createInstance">
+		<constructor-arg name="limiterStrategies">
+			<list value-type="com.ccbill.clessidra.strategy.AbstractLimiterStrategy">
+				<ref bean="chainedTestLimiterChain1" />
+				<ref bean="chainedTestLimiterChain2" />
+				<ref bean="chainedTestLimiterChain3" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- OverridesTests -->
+	<!-- ## Invocation Rate -->
+	<bean name="overridesInvocationRateLimiterProvider" class="com.ccbill.clessidra.override.PropertyOverrideProvider" factory-method="createInstance"
+		scope="prototype">
+		<constructor-arg value="ratelimiter-test-overrides-InvocationRate.xml"></constructor-arg>
+	</bean>
+	<bean name="overridesInvocationRateLimiter" class="com.ccbill.clessidra.tests.customstrategies.TestInvocationRateLimiterStrategy">
+		<constructor-arg name="numberOfInvocationsLimit" value="10" />
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+		<property name="propertyOverrideProvider" ref="overridesInvocationRateLimiterProvider"></property>
+	</bean>
+	<!-- ## Concurrency -->
+	<bean name="overridesConcurrencyLimiterProvider" class="com.ccbill.clessidra.override.PropertyOverrideProvider" factory-method="createInstance"
+		scope="prototype">
+		<constructor-arg value="ratelimiter-test-overrides-Concurrency.xml"></constructor-arg>
+	</bean>
+	<bean name="overridesConcurrencyLimiter" class="com.ccbill.clessidra.tests.customstrategies.TestConcurrencyLimiterStrategy">
+		<constructor-arg name="concurrencyLimit" value="5"></constructor-arg>
+		<property name="propertyOverrideProvider" ref="overridesConcurrencyLimiterProvider"></property>
+	</bean>
+	<!-- ## Cost Based -->
+	<bean name="overridesCostBasedLimiterProvider" class="com.ccbill.clessidra.override.PropertyOverrideProvider" factory-method="createInstance"
+		scope="prototype">
+		<constructor-arg value="ratelimiter-test-overrides-CostBased.xml"></constructor-arg>
+	</bean>
+	<bean name="overridesCostBasedLimiter" class="com.ccbill.clessidra.tests.customstrategies.TestCostBasedLimiterStrategy">
+		<constructor-arg name="costLimit" value="60"></constructor-arg>
+		<constructor-arg name="perTimePeriodSeconds" value="5"></constructor-arg>
+		<property name="propertyOverrideProvider" ref="overridesCostBasedLimiterProvider"></property>
+	</bean>
+
+
+
+</beans>
