@@ -4,16 +4,43 @@
 	<groupId>com.ccbill</groupId>
 	<artifactId>clessidra</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>Clessidra</name>
+	<description>A library used to control the inflow of requests to selected methods by use of a set of strategies.</description>
+	<inceptionYear>2013</inceptionYear>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/reubenbubu/Clessidra/issues</url>
+	</issueManagement>
+	<url>https://github.com/reubenbubu/Clessidra/</url>
+	<developers>
+		<developer>
+			<id>reubena</id>
+			<name>Reuben Abela</name>
+			<email>reuben.abela@gmail.com</email>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE v3</name>
+			<url>http://www.gnu.org/licenses/gpl.html</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>https://github.com/reubenbubu/Clessidra.git</connection>
+		<url>https://github.com/reubenbubu/Clessidra</url>
+	</scm>
+
 	<distributionManagement>
 		<repository>
-			<id>ccbill-releases</id>
-			<name>CCBill Release Artifacts</name>
-			<url>http://ci:8089/artifactory/ccbill-releases</url>
+			<id>sonatype-releases</id>
+			<name>Sonatype Release Artifacts</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 		<snapshotRepository>
-			<id>ccbill-snapshots</id>
-			<name>CCBill Snapshot Artifacts</name>
-			<url>http://ci:8089/artifactory/ccbill-snapshots</url>
+			<id>sonatype-snapshots</id>
+			<name>Sonatype Snapshot Artifacts</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<properties>
