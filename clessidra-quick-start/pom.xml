@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ccbill</groupId>
 	<artifactId>clessidra-quick-start</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<properties>
 		<!-- Generic properties -->
 		<java.version>1.6</java.version>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.ccbill</groupId>
 			<artifactId>clessidra</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
