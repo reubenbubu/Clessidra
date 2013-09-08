@@ -1,6 +1,10 @@
 # Clessidra Release Notes
 =======================
 
+## 1.0.1 - Work in Progress
+
+- [TODO] Improve UUID Acquisition, possible performance gain.
+
 ## 1.0.0
 
 - Enhanced property override provider. Added support for wildcards in property override configuration strategy group key and method group.
