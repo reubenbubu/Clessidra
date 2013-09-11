@@ -32,6 +32,11 @@ public class LimiterStrategyConclusion {
 	 */
 	private LimiterStrategy strategyResponsible;
 	
+	/**
+	 * Whether the request was discarded due to reaching queue limit
+	 */
+	private Boolean hasExceededQueueSize;
+	
 	public LimiterStrategyConclusion(Boolean hasLimitBeenExceeded) {
 		this.hasLimitBeenExceeded = hasLimitBeenExceeded;
 	}
@@ -72,6 +77,16 @@ public class LimiterStrategyConclusion {
 	public void setStrategyResponsible(LimiterStrategy strategyResponsible) {
 		this.strategyResponsible = strategyResponsible;
 	}
+
+	public Boolean getHasExceededQueueSize() {
+		return hasExceededQueueSize;
+	}
+
+	public void setHasExceededQueueSize(Boolean hasExceededQueueSize) {
+		this.hasExceededQueueSize = hasExceededQueueSize;
+	}
+	
+	
 
 
 }

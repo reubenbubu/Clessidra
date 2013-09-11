@@ -34,14 +34,10 @@ public class QueueTests {
         List<Future<String>> futures = Collections.synchronizedList(new Vector<Future<String>>());
 
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1000; i++) {
             futures.add(concurrencyQueuedServiceMethodAnnotated.testConcurrencyUngrouped());
         }
-        Thread.sleep(1000);
-        for (int i = 0; i < 5; i++) {
-            futures.add(concurrencyQueuedServiceMethodAnnotated.testConcurrencyUngrouped());
-            Thread.sleep(100);
-        }
+
 
         for (Future<String> current : futures) {
             try {

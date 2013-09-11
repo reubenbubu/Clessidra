@@ -20,7 +20,7 @@ public class ConcurrencyQueuedServiceMethodAnnotated {
 
 	@Async
 	@RateLimited(methodGrouping = MethodGrouping.UNGROUPED, limiterBean = "queueConcurrencyLimiter")
-	@RateLimitedQueue(queueSize=6)
+	@RateLimitedQueue(queueSize=5000)
 	public Future<String> testConcurrencyUngrouped() {
 
 		try {
@@ -37,7 +37,7 @@ public class ConcurrencyQueuedServiceMethodAnnotated {
 
 	@Async
 	@RateLimited(methodGrouping = MethodGrouping.GROUPED, groupName = "concurrencyLimiterTest", limiterBean = "concurrencyLimiter")
-	@RateLimitedQueue
+	@RateLimitedQueue(queueSize=6)
 	public Future<String> testConcurrencyGrouped(int i) {
 		try {
 			logger.debug(">> " + Thread.currentThread().getName() + " sleeping for 5 seconds");
@@ -52,7 +52,7 @@ public class ConcurrencyQueuedServiceMethodAnnotated {
 
 	@Async
 	@RateLimited(methodGrouping = MethodGrouping.GROUPED, groupName = "concurrencyLimiterTest", limiterBean = "concurrencyLimiter")
-	@RateLimitedQueue
+	@RateLimitedQueue(queueSize=6)
 	public Future<String> testConcurrencyGrouped(String s) {
 		try {
 			logger.debug(">> " + Thread.currentThread().getName() + " sleeping for 5 seconds");
