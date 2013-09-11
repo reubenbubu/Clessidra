@@ -32,7 +32,7 @@ public class BaseRateLimiter implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 
-	private static Map<String, ConcurrentLinkedQueue<Thread>> threadQueue = new ConcurrentHashMap<String, ConcurrentLinkedQueue<Thread>>();
+	private static Map<String, LinkedBlockingDeque<Thread>> threadQueue = new ConcurrentHashMap<String, LinkedBlockingDeque<Thread>>();
 
 	public BaseRateLimiter() {
 
@@ -72,47 +72,34 @@ public class BaseRateLimiter implements ApplicationContextAware {
 		}
 
 		// get the queueing configuration
-
 		RateLimitedQueue rateLimitedQueueAnnotation = methodSignature.getMethod().getAnnotation(RateLimitedQueue.class);
 		if (rateLimitedQueueAnnotation == null) {
 			rateLimitedQueueAnnotation = (RateLimitedQueue) joinPoint.getSourceLocation().getWithinType().getAnnotation(RateLimitedQueue.class);
 		}
 
-		boolean methodCallQueued = rateLimitedQueueAnnotation != null;
-		int queueMaxSize = rateLimitedQueueAnnotation.queueSize();
+		boolean methodCallQueueable = rateLimitedQueueAnnotation != null;
+		int queueMaxSize = 0;
 
-		ConcurrentLinkedQueue<Thread> queue = null;
-
-		if (rateLimitedAnnotation != null) {
-
+		LinkedBlockingDeque<Thread> queue = null;
+		
+		if (methodCallQueueable) {
+		    
+		    queueMaxSize = rateLimitedQueueAnnotation.queueSize();
+		    
 			boolean sleepEternally = false;
-
 			synchronized (BaseRateLimiter.class) {
-				queue = threadQueue.get(methodGroupName);
-				if (queue == null) {
-					queue = new ConcurrentLinkedQueue<Thread>();
-					threadQueue.put(methodGroupName, queue);
-					logger.debug("Created queue " + methodGroupName);
-				}
-				
-				if (!queue.isEmpty()) {
-					
-					// if queue not full
-					if (queue.size() < queueMaxSize) {
-						// enqueue and sleep, boolean to sleep outside synchronized block
-						queue.add(Thread.currentThread());
-						sleepEternally = true;
-					} else {
-						// stop here, throw RateLimiterException						
-						logger.debug("Queue full, no space for " + Thread.currentThread().getName() + ".");
-						LimiterStrategyConclusion conclusion = new LimiterStrategyConclusion(true);
-						conclusion.setDetailedExceededMessage("Too many requests queued for method group " + methodGroupName + ", queue size "
-								+ queueMaxSize + ".");
-						conclusion.setGenericExceededMessage("Too many requests queued.");
-						conclusion.setHasExceededQueueSize(true);
-						throw new RateLimiterException("Too many request queued", conclusion);
-					}
-				}
+			
+			    queue = this.threadQueue.get(methodGroupName);
+			    
+			    if (queue == null) {
+	                queue = new LinkedBlockingDeque<Thread>(queueMaxSize);
+	                threadQueue.put(methodGroupName, queue);
+	                logger.debug("Created queue " + methodGroupName);
+	            }               
+			    
+			    if (!queue.isEmpty()) {
+			        sleepEternally = addCurrentThreadToQueue(methodGroupName, queueMaxSize, false);
+			    }
 			}
 			if (sleepEternally)
 				sleepEternally();
@@ -125,22 +112,15 @@ public class BaseRateLimiter implements ApplicationContextAware {
 		UUID methodInvocationUUID = UUIDGenerator.generateUUID();
 
 		LimiterStrategyConclusion conclusion;
-
 		
-		if (methodCallQueued) {
+		if (methodCallQueueable) {
 			do {
 				conclusion = limiterStrategyChain.hasLimitBeenExceededChain(methodGroupName, methodInvocationUUID, joinPoint.getArgs());
 				if (conclusion.getHasLimitBeenExceeded()) {
 					boolean sleepEternally = false;
 					synchronized (BaseRateLimiter.class) {
 						if (!queue.contains(Thread.currentThread())) {
-							if (queue.size() < queueMaxSize) {
-								queue.add(Thread.currentThread());
-								sleepEternally = true;
-							} else {
-								logger.debug("Thread " + Thread.currentThread().getName() + " can't fit in the queue.");
-								break;
-							}
+						    sleepEternally = addCurrentThreadToQueue(methodGroupName, queueMaxSize, true);
 						}
 					}
 					if (sleepEternally)
@@ -164,11 +144,11 @@ public class BaseRateLimiter implements ApplicationContextAware {
 				throw t;
 			} finally {
 				limiterStrategyChain.postInvocationCleanupChain(methodGroupName, methodInvocationUUID, joinPoint.getArgs());
-				synchronized (this) {
+				synchronized (BaseRateLimiter.class) {
 					if (queue != null && queue.peek() != null) {
-						Thread t = queue.poll();
-						logger.debug("Interrupting " + t.getName());
-						t.interrupt();
+						Thread sleepingThread = queue.poll();
+						logger.debug("Waking up " + sleepingThread.getName());
+						sleepingThread.interrupt();
 					}
 				}
 			}
@@ -186,7 +166,6 @@ public class BaseRateLimiter implements ApplicationContextAware {
 	}
 
 	private void sleepEternally() {
-
 		logger.debug("Putting thread " + Thread.currentThread().getName() + " to sleep.");
 
 		try {
@@ -196,6 +175,43 @@ public class BaseRateLimiter implements ApplicationContextAware {
 		} catch (InterruptedException ignore) {
 			logger.debug("Awakened thread " + Thread.currentThread().getName() + ".");
 		}
+	}
+	
+	private LimiterStrategyConclusion buildQueueFullConclusion(String methodGroupName, int queueMaxSize) {
+	
+	    LimiterStrategyConclusion conclusion = new LimiterStrategyConclusion(true);
+        conclusion.setDetailedExceededMessage("Too many requests queued for method group " + methodGroupName + ", queue size "
+                + queueMaxSize + ".");
+        conclusion.setGenericExceededMessage("Too many requests queued.");
+        conclusion.setHasExceededQueueSize(true);
+        
+        return conclusion;
+	}
+	
+	private boolean addCurrentThreadToQueue(String methodGroupName, int queueMaxSize, boolean head) throws RateLimiterException {
+	 
+	    LinkedBlockingDeque<Thread> queue = this.threadQueue.get(methodGroupName);
+        
+	    // try to add to queue
+        boolean added = false;
+        if (head){
+            try  {
+                queue.addFirst(Thread.currentThread());
+                added = true;
+            } catch (IllegalStateException full) {
+            }
+        } else {
+            added = queue.add(Thread.currentThread());
+        }
+        if (added) {
+            logger.debug("Added " + Thread.currentThread().getName() + " to tail of queue");
+            return true;
+        } else {
+            // stop here, throw RateLimiterException                        
+            logger.debug("Queue full, no space for " + Thread.currentThread().getName() + ".");
+            throw new RateLimiterException("Too many request queued", buildQueueFullConclusion(methodGroupName, queueMaxSize));
+        }
+	    
 	}
 
 }

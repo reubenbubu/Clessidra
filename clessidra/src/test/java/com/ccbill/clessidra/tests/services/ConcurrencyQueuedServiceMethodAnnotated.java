@@ -20,7 +20,7 @@ public class ConcurrencyQueuedServiceMethodAnnotated {
 
 	@Async
 	@RateLimited(methodGrouping = MethodGrouping.UNGROUPED, limiterBean = "queueConcurrencyLimiter")
-	@RateLimitedQueue(queueSize=5000)
+	@RateLimitedQueue(queueSize=10)
 	public Future<String> testConcurrencyUngrouped() {
 
 		try {

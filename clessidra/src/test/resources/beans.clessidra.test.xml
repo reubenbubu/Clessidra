@@ -25,7 +25,7 @@
 	</bean>
 
 	<bean name="queueConcurrencyLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultConcurrencyLimiterStrategy">
-		<constructor-arg name="concurrencyLimit" value="40"></constructor-arg>
+		<constructor-arg name="concurrencyLimit" value="5"></constructor-arg>
 	</bean>
 
 	<!-- CostBasedLimiterTests -->
