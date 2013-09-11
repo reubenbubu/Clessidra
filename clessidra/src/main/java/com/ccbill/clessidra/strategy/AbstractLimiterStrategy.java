@@ -138,10 +138,6 @@ public abstract class AbstractLimiterStrategy implements LimiterStrategy {
 	 * {@inheritDoc}
 	 */
 	public PropertyOverrideProvider getPropertyOverrideProvider() {
-		if (propertyOverrideProvider == null) {
-			propertyOverrideProvider = new PropertyOverrideProvider();
-		}
-
 		return propertyOverrideProvider;
 	}
 
