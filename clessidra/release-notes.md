@@ -1,9 +1,15 @@
 # Clessidra Release Notes
 =======================
 
-## 1.0.1 - Work in Progress
+## 1.0.2 - Work in Progress
 
 - [TODO] Improve UUID Acquisition, possible performance gain.
+
+
+## 1.0.1
+
+- Fixed a PropertyOverrideProvider bug, last chained strategy was not getting the correct provider set.
+- Added method call queueing
 
 ## 1.0.0
 
