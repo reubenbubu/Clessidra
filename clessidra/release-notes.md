@@ -1,7 +1,7 @@
 # Clessidra Release Notes
 =======================
 
-## 1.0.1 - 
+## 1.0.1
 
 - Fixed a bug with PropertyOverrideProvider
 
