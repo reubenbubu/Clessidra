@@ -1,9 +1,9 @@
 # Clessidra Release Notes
 =======================
 
-## 1.0.1 - Work in Progress
+## 1.0.1
 
-- [TODO] Improve UUID Acquisition, possible performance gain.
+- Fixed a bug with PropertyOverrideProvider
 
 ## 1.0.0
 
