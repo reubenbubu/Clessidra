@@ -13,7 +13,7 @@ public class RateLimiterException extends RuntimeException {
 
 	@SuppressWarnings("unused")
 	private LimiterStrategyConclusion conclusion;
-
+	
 	public RateLimiterException() {
 		super();
 	}
