@@ -52,7 +52,7 @@ public abstract class BaseInvocationRateLimiterStrategy extends AbstractLimiterS
     /**
      * {@inheritDoc}
      */
-    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args) {
+    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args, boolean charged) {
 
         boolean callNextInChain = false;
 
@@ -107,7 +107,8 @@ public abstract class BaseInvocationRateLimiterStrategy extends AbstractLimiterS
                     " " + (currentInvocationCount < numberOfInvocationsLimit ? "Allowed" : "Blocked"));
             if (currentInvocationCount < numberOfInvocationsLimit) {
 
-                dateUuids.add(new DateUUID(new Date(), invocationUUID));
+                if (charged)
+                    dateUuids.add(new DateUUID(new Date(), invocationUUID));
                 callNextInChain = true;
 
             }
@@ -115,11 +116,19 @@ public abstract class BaseInvocationRateLimiterStrategy extends AbstractLimiterS
         }
 
         if (callNextInChain) {
-            return callNextChainedLimiterStrategy(methodGroup, invocationUUID, args);
+            return callNextChainedLimiterStrategy(methodGroup, invocationUUID, args, charged);
         }
         else {
             return buildExceededConclusion(this, methodGroup, invocationUUID, args);
         }
+
+    }
+
+
+
+    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args) {
+
+        return hasLimitBeenExceededChain(methodGroup, invocationUUID, args, true);
 
     }
 

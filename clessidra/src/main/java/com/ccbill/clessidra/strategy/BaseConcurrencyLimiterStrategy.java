@@ -45,10 +45,8 @@ public abstract class BaseConcurrencyLimiterStrategy extends AbstractLimiterStra
 
 
 
-    /**
-     * {@inheritDoc}
-     */
-    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args) {
+    @Override
+    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args, boolean charged) {
 
         boolean callNextInChain = false;
 
@@ -77,10 +75,12 @@ public abstract class BaseConcurrencyLimiterStrategy extends AbstractLimiterStra
             // if the concurrency amount is less than the limit
             logger.debug("Checking concurrency limit [key=" + historyKey + "] " + currentConcurrentInvocationCount + " < " + concurrencyLimit + " " +
                     (currentConcurrentInvocationCount < concurrencyLimit ? "Allowed" : "Blocked"));
+
             if (currentConcurrentInvocationCount < concurrencyLimit) {
 
                 // add the current invocation to the list
-                currentInvocationUUIDs.add(invocationUUID);
+                if (charged)
+                    currentInvocationUUIDs.add(invocationUUID);
                 callNextInChain = true;
 
             }
@@ -88,11 +88,22 @@ public abstract class BaseConcurrencyLimiterStrategy extends AbstractLimiterStra
         }
 
         if (callNextInChain) {
-            return callNextChainedLimiterStrategy(methodGroup, invocationUUID, args);
+            return callNextChainedLimiterStrategy(methodGroup, invocationUUID, args, charged);
         }
         else {
             return buildExceededConclusion(this, methodGroup, invocationUUID, args);
         }
+
+    }
+
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args) {
+
+        return hasLimitBeenExceededChain(methodGroup, invocationUUID, args, true);
 
     }
 

@@ -53,7 +53,7 @@ public abstract class BaseCostBasedLimiterStrategy extends AbstractLimiterStrate
     /**
      * {@inheritDoc}
      */
-    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args) {
+    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args, boolean charged) {
 
         Integer costLimit = getCostLimit(methodGroup, args);
         Integer perTimePeriodSeconds = getPerTimePeriodSeconds(methodGroup, args);
@@ -103,7 +103,8 @@ public abstract class BaseCostBasedLimiterStrategy extends AbstractLimiterStrate
                     (currentTotalInvocationCost < costLimit ? "Allowed" : "Blocked"));
             if (currentTotalInvocationCost < costLimit) {
 
-                dateCostUuids.add(new DateCostUUID(new Date(), calculateCost(args), invocationUUID));
+                if (charged)
+                    dateCostUuids.add(new DateCostUUID(new Date(), calculateCost(args), invocationUUID));
                 callNextInChain = true;
 
             }
@@ -111,11 +112,19 @@ public abstract class BaseCostBasedLimiterStrategy extends AbstractLimiterStrate
         }
 
         if (callNextInChain) {
-            return callNextChainedLimiterStrategy(methodGroup, invocationUUID, args);
+            return callNextChainedLimiterStrategy(methodGroup, invocationUUID, args, charged);
         }
         else {
             return buildExceededConclusion(this, methodGroup, invocationUUID, args);
         }
+
+    }
+
+
+
+    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args) {
+
+        return hasLimitBeenExceededChain(methodGroup, invocationUUID, args, true);
 
     }
 

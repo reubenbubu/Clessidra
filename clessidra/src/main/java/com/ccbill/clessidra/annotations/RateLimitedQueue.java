@@ -22,7 +22,12 @@ public @interface RateLimitedQueue {
     /**
      * The maximum number of queued requests
      */
-    int queueSize();
+    int maxQueueSize();
+    
+    /**
+     * The maximum amount of time a request should wait in queue.      
+     */
+    long maxWaitMillis() default -1;
     
     
 }

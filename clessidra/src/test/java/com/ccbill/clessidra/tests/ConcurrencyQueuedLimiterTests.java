@@ -62,9 +62,31 @@ public class ConcurrencyQueuedLimiterTests {
 			}
 
 		}
+		
+		futures.clear();
+		
+		for (int i = 0; i < 200; i++) {
+			futures.add(concurrencyQueuedServiceMethodAnnotated.testConcurrencyUngrouped());
+		}
 
-		Assert.assertEquals(120, success);
-		Assert.assertEquals(80, fail);
+		for (Future<String> current : futures) {
+			try {
+				current.get();
+				success++;
+			} catch (ExecutionException e) {
+				if (e.getCause() instanceof RateLimiterException) {
+					fail++;
+					RateLimiterException rle = (RateLimiterException) e.getCause();
+					logger.error(rle);
+				} else {
+					logger.error(e);
+				}
+			}
+
+		}
+
+		Assert.assertEquals(240, success);
+		Assert.assertEquals(160, fail);
 
 	}
 
