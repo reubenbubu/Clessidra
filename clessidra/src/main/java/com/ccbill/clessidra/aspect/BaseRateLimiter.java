@@ -176,9 +176,11 @@ public class BaseRateLimiter
 				// Release a permit
 				if (requestQueueable) {
 					LimitedQueueSemaphore s = getSemaphore(methodGroupName, queueSize);
-					s.releaseToQueue();
-					logger.debug("Releasing. " + s.toString());
-
+					if (s.releaseToQueue()) {
+						logger.debug("Releasing. " + s.toString());
+					} else {
+						logger.debug("Not releasing. No one waiting.");
+					}
 				}
 			}
 		}

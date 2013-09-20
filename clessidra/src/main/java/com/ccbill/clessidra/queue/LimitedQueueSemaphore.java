@@ -122,10 +122,12 @@ public class LimitedQueueSemaphore {
     /**
      * Release a permit only if an acquire is queued
      */
-    public void releaseToQueue() {
+    public boolean releaseToQueue() {
     	if (getAccurateQueueLength() > 0) {
     		semaphore.release();
+    		return true;
     	}
+    	return false;
     }
     
     public int availablePermits() {
