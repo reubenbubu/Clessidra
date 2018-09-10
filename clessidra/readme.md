@@ -19,3 +19,6 @@ This library provides the following limiter strategies:
 - DefaultInvocationRateLimiterStrategy - Limits method call rate in a given time period.
 - DefaultConcurrencyLimiterStrategy - Limits on the amount of concurrently running instances of a method or methods.
 - DefaultCostBasedLimiterStrategy - Applies a user defined method cost to a method invocation and limits method calls based on a cost limit in a given time period.
+
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/26dd92370364445fa566f07a6f1a1e0d)](https://www.codacy.com/app/reubenbubu/Clessidra?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reubenbubu/Clessidra&amp;utm_campaign=Badge_Grade)
