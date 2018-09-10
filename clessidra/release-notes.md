@@ -1,9 +1,9 @@
 # Clessidra Release Notes
 =======================
 
-## 1.0.2 - Work in progress
+## 1.0.1
 
-- [TODO] Add method call queueing
+- Fixed a bug with PropertyOverrideProvider
 
 ## 1.0.1
 
