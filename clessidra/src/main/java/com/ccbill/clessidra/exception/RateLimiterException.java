@@ -3,7 +3,8 @@ package com.ccbill.clessidra.exception;
 import com.ccbill.clessidra.strategy.LimiterStrategyConclusion;
 
 /**
- * An exception that is thrown when a method invocation is blocked due to reaching a particular limit.
+ * An exception that is thrown when a method invocation is blocked due to
+ * reaching a particular limit.
  * 
  * @author reubena
  * 
@@ -11,7 +12,6 @@ import com.ccbill.clessidra.strategy.LimiterStrategyConclusion;
 @SuppressWarnings("serial")
 public class RateLimiterException extends RuntimeException {
 
-	@SuppressWarnings("unused")
 	private LimiterStrategyConclusion conclusion;
 
 	public RateLimiterException() {

@@ -5,7 +5,8 @@ import com.ccbill.clessidra.interfaces.LimiterStrategy;
 /**
  * Object representing the conclusion of a {@link LimiterStrategy}.
  * 
- * This object will be returned by {@link LimiterStrategy#hasLimitBeenExceededChain(String, java.util.UUID, Object[])}
+ * This object will be returned by
+ * {@link LimiterStrategy#hasLimitBeenExceededChain(String, java.util.UUID, Object[])}
  * 
  * @author reubena
  * 
@@ -31,7 +32,7 @@ public class LimiterStrategyConclusion {
 	 * The {@link LimiterStrategy} responsible.
 	 */
 	private LimiterStrategy strategyResponsible;
-	
+
 	public LimiterStrategyConclusion(Boolean hasLimitBeenExceeded) {
 		this.hasLimitBeenExceeded = hasLimitBeenExceeded;
 	}
@@ -72,6 +73,5 @@ public class LimiterStrategyConclusion {
 	public void setStrategyResponsible(LimiterStrategy strategyResponsible) {
 		this.strategyResponsible = strategyResponsible;
 	}
-
 
 }
