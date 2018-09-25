@@ -34,7 +34,8 @@ public class RateLimiterOverrideMethodGroup {
 		return rateLimiterOverrideStrategyGroups;
 	}
 
-	public void setRateLimiterOverrideStrategyGroups(List<RateLimiterOverrideStrategyGroup> rateLimiterOverrideStrategyGroups) {
+	public void setRateLimiterOverrideStrategyGroups(
+			List<RateLimiterOverrideStrategyGroup> rateLimiterOverrideStrategyGroups) {
 		this.rateLimiterOverrideStrategyGroups = rateLimiterOverrideStrategyGroups;
 	}
 

@@ -15,7 +15,8 @@ import com.ccbill.clessidra.strategy.AbstractLimiterStrategy;
 import com.thoughtworks.xstream.XStream;
 
 /**
- * Provides the ability to read an xml file and load the property overrides in a {@link PropertyOverrideProvider} object.
+ * Provides the ability to read an xml file and load the property overrides in a
+ * {@link PropertyOverrideProvider} object.
  * 
  * @author reubena
  * 
@@ -90,8 +91,8 @@ public class PropertyOverrideProvider {
 	 *            The name of the property.
 	 * @return The value of the property override.
 	 */
-	public String getPropertyOverride(Class<? extends AbstractLimiterStrategy> limiterStrategy, String methodGroup, String strategyGroupKey,
-			String propertyName) {
+	public String getPropertyOverride(Class<? extends AbstractLimiterStrategy> limiterStrategy, String methodGroup,
+			String strategyGroupKey, String propertyName) {
 
 		if (rateLimiterOverrides == null)
 			return null;
@@ -99,11 +100,14 @@ public class PropertyOverrideProvider {
 		// look for most specific override
 		for (RateLimiterOverride currentOverride : rateLimiterOverrides.getRateLimiterOverrides()) {
 			if (currentOverride.getStrategyClassName().equals(limiterStrategy.getCanonicalName())) {
-				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride.getRateLimiterOverrideMethodGroups()) {
+				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride
+						.getRateLimiterOverrideMethodGroups()) {
 					if (currentMethodGroup.getMethodGroupName().equals(methodGroup)) {
-						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup.getRateLimiterOverrideStrategyGroups()) {
+						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup
+								.getRateLimiterOverrideStrategyGroups()) {
 							if (currentStrategyGroup.getStrategyGroupKey().equals(strategyGroupKey)) {
-								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup.getPropertyOverrides()) {
+								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup
+										.getPropertyOverrides()) {
 									if (currentProperty.getPropertyName().equals(propertyName)) {
 										return currentProperty.getPropertyValue();
 									}
@@ -118,12 +122,15 @@ public class PropertyOverrideProvider {
 		// try to match strategy group key with wildcards
 		for (RateLimiterOverride currentOverride : rateLimiterOverrides.getRateLimiterOverrides()) {
 			if (currentOverride.getStrategyClassName().equals(limiterStrategy.getCanonicalName())) {
-				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride.getRateLimiterOverrideMethodGroups()) {
+				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride
+						.getRateLimiterOverrideMethodGroups()) {
 					if (currentMethodGroup.getMethodGroupName().equals(methodGroup)) {
-						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup.getRateLimiterOverrideStrategyGroups()) {
+						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup
+								.getRateLimiterOverrideStrategyGroups()) {
 							// do wild card match on strategy group key
 							if (wildCardMatch(strategyGroupKey, currentStrategyGroup.getStrategyGroupKey())) {
-								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup.getPropertyOverrides()) {
+								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup
+										.getPropertyOverrides()) {
 									if (currentProperty.getPropertyName().equals(propertyName)) {
 										return currentProperty.getPropertyValue();
 									}
@@ -138,12 +145,15 @@ public class PropertyOverrideProvider {
 		// try to match method group with wildcards
 		for (RateLimiterOverride currentOverride : rateLimiterOverrides.getRateLimiterOverrides()) {
 			if (currentOverride.getStrategyClassName().equals(limiterStrategy.getCanonicalName())) {
-				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride.getRateLimiterOverrideMethodGroups()) {
+				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride
+						.getRateLimiterOverrideMethodGroups()) {
 					// do wild card match on method group
 					if (wildCardMatch(methodGroup, currentMethodGroup.getMethodGroupName())) {
-						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup.getRateLimiterOverrideStrategyGroups()) {
+						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup
+								.getRateLimiterOverrideStrategyGroups()) {
 							if (currentStrategyGroup.getStrategyGroupKey().equals(strategyGroupKey)) {
-								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup.getPropertyOverrides()) {
+								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup
+										.getPropertyOverrides()) {
 									if (currentProperty.getPropertyName().equals(propertyName)) {
 										return currentProperty.getPropertyValue();
 									}
@@ -158,13 +168,16 @@ public class PropertyOverrideProvider {
 		// try to match both strategy group and method group with wildcards
 		for (RateLimiterOverride currentOverride : rateLimiterOverrides.getRateLimiterOverrides()) {
 			if (currentOverride.getStrategyClassName().equals(limiterStrategy.getCanonicalName())) {
-				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride.getRateLimiterOverrideMethodGroups()) {
+				for (RateLimiterOverrideMethodGroup currentMethodGroup : currentOverride
+						.getRateLimiterOverrideMethodGroups()) {
 					// do wild card match on method group
 					if (wildCardMatch(methodGroup, currentMethodGroup.getMethodGroupName())) {
-						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup.getRateLimiterOverrideStrategyGroups()) {
+						for (RateLimiterOverrideStrategyGroup currentStrategyGroup : currentMethodGroup
+								.getRateLimiterOverrideStrategyGroups()) {
 							// do wild card match on strategy group key
 							if (wildCardMatch(strategyGroupKey, currentStrategyGroup.getStrategyGroupKey())) {
-								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup.getPropertyOverrides()) {
+								for (RateLimiterPropertyOverride currentProperty : currentStrategyGroup
+										.getPropertyOverrides()) {
 									if (currentProperty.getPropertyName().equals(propertyName)) {
 										return currentProperty.getPropertyValue();
 									}
@@ -181,7 +194,8 @@ public class PropertyOverrideProvider {
 	}
 
 	/**
-	 * Returns a list of {@link RateLimiterOverride} for a particular {@link LimiterStrategy}
+	 * Returns a list of {@link RateLimiterOverride} for a particular
+	 * {@link LimiterStrategy}
 	 * 
 	 * @param limiterStrategy
 	 *            The {@link LimiterStrategy} class.

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ccbill</groupId>
 	<artifactId>clessidra</artifactId>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 	<name>Clessidra</name>
 	<description>A library used to control (rate limit) the inflow of requests to selected methods by use of a set of strategies.</description>
@@ -44,11 +44,11 @@
 	</distributionManagement>
 	<properties>
 		<!-- Generic properties -->
-		<java.version>1.6</java.version>
+		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<!-- Spring -->
-		<spring-framework.version>3.2.4.RELEASE</spring-framework.version>
+		<spring-framework.version>4.3.19.RELEASE</spring-framework.version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -71,22 +71,22 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.3</version>
+			<version>2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.7.3</version>
+			<version>1.8.13</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
+			<version>3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.4</version>
+			<version>1.4.10</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -97,7 +97,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>4.12</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -157,6 +157,7 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.2.1</version>
 			</plugin>
+			<!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -170,6 +171,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 </project>

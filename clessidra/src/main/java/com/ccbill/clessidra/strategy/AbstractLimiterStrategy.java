@@ -38,7 +38,8 @@ public abstract class AbstractLimiterStrategy implements LimiterStrategy {
 
 		for (AbstractLimiterStrategy currentInLoop : limiterStrategies) {
 
-			// If the current strategy doesn't have it's own PropertyOverrideProvider, set the chain
+			// If the current strategy doesn't have it's own
+			// PropertyOverrideProvider, set the chain
 			// PropertyOverrideProvider
 			if (currentInLoop.getPropertyOverrideProvider() == null) {
 				currentInLoop.setPropertyOverrideProvider(propertyOverrideProvider);
@@ -66,7 +67,8 @@ public abstract class AbstractLimiterStrategy implements LimiterStrategy {
 	 *            The list of {@link AbstractLimiterStrategy} subclasses.
 	 * @return The chain of limiter strategies
 	 */
-	public static AbstractLimiterStrategy createInstance(ArrayList<? extends AbstractLimiterStrategy> limiterStrategies) {
+	public static AbstractLimiterStrategy createInstance(
+			ArrayList<? extends AbstractLimiterStrategy> limiterStrategies) {
 		return createInstance(limiterStrategies, new PropertyOverrideProvider());
 	}
 
@@ -148,10 +150,8 @@ public abstract class AbstractLimiterStrategy implements LimiterStrategy {
 		this.propertyOverrideProvider = propertyOverrideProvider;
 	}
 
-	
-	
-	
-	public LimiterStrategyConclusion callNextChainedLimiterStrategy(String methodGroup, UUID invocationUUID, Object[] args, boolean charged) {
+	public LimiterStrategyConclusion callNextChainedLimiterStrategy(String methodGroup, UUID invocationUUID,
+			Object[] args) {
 
 		LimiterStrategy nextLimiterStrategy = getNextLimiterStrategy();
 
@@ -161,9 +161,11 @@ public abstract class AbstractLimiterStrategy implements LimiterStrategy {
 		}
 
 		// call the next strategy in chain
-		LimiterStrategyConclusion nextLimiterStrategyConclusion = nextLimiterStrategy.hasLimitBeenExceededChain(methodGroup, invocationUUID, args, charged);
+		LimiterStrategyConclusion nextLimiterStrategyConclusion = nextLimiterStrategy
+				.hasLimitBeenExceededChain(methodGroup, invocationUUID, args);
 
-		// if the next strategy return true, rollback, the user method will not be invoked
+		// if the next strategy return true, rollback, the user method will not
+		// be invoked
 		if (nextLimiterStrategyConclusion.getHasLimitBeenExceeded()) {
 			rollback(methodGroup, invocationUUID, args);
 		}
@@ -182,8 +184,8 @@ public abstract class AbstractLimiterStrategy implements LimiterStrategy {
 		return "Limit reached";
 	}
 
-	public LimiterStrategyConclusion buildExceededConclusion(LimiterStrategy strategyResponsible, String methodGroup, UUID invocationUUID,
-			Object[] args) {
+	public LimiterStrategyConclusion buildExceededConclusion(LimiterStrategy strategyResponsible, String methodGroup,
+			UUID invocationUUID, Object[] args) {
 
 		LimiterStrategyConclusion conclusion = new LimiterStrategyConclusion(true, strategyResponsible);
 		conclusion.setDetailedExceededMessage(getDetailedExceededMessage(methodGroup, invocationUUID, args));
@@ -193,4 +195,14 @@ public abstract class AbstractLimiterStrategy implements LimiterStrategy {
 
 	}
 
+	public LimiterStrategyConclusion buildExceededConclusion(LimiterStrategy strategyResponsible, String methodGroup,
+			UUID invocationUUID, Object[] args, long suggestedRetryWaitMillis) {
+
+		LimiterStrategyConclusion conclusion = new LimiterStrategyConclusion(true, strategyResponsible);
+		conclusion.setDetailedExceededMessage(getDetailedExceededMessage(methodGroup, invocationUUID, args));
+		conclusion.setGenericExceededMessage(getGenericExceededMessage(methodGroup, invocationUUID, args));
+
+		return conclusion;
+
+	}
 }

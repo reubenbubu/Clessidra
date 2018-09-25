@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 import com.ccbill.clessidra.annotations.RateLimited;
 
 /**
- * {@link RateLimitedClassAspect} takes care of intercepting the {@link RateLimited} annotation at class level. The core logic can be found in
+ * {@link RateLimitedClassAspect} takes care of intercepting the
+ * {@link RateLimited} annotation at class level. The core logic can be found in
  * {@link BaseRateLimiter}.
  * 
  * @author reubena

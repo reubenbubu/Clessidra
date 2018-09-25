@@ -3,7 +3,8 @@ package com.ccbill.clessidra.strategy.defaults;
 import com.ccbill.clessidra.strategy.BaseConcurrencyLimiterStrategy;
 
 /**
- * A useable {@link BaseConcurrencyLimiterStrategy} that groups all the invocations under the same strategy group.
+ * A useable {@link BaseConcurrencyLimiterStrategy} that groups all the
+ * invocations under the same strategy group.
  * 
  * @author reubena
  * 

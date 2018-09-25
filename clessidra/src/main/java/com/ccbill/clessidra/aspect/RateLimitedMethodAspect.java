@@ -9,8 +9,9 @@ import com.ccbill.clessidra.annotations.RateLimited;
 
 /**
  * 
- * {@link RateLimitedMethodAspect} takes care of intercepting the {@link RateLimited} annotation at method level. The core logic can be found in
- * {@link BaseRateLimiter}.
+ * {@link RateLimitedMethodAspect} takes care of intercepting the
+ * {@link RateLimited} annotation at method level. The core logic can be found
+ * in {@link BaseRateLimiter}.
  * 
  * @author reubena
  * 

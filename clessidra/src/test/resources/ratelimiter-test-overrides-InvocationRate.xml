@@ -6,7 +6,7 @@
 				<property-override propertyName="perTimePeriodSeconds" propertyValue="5" />
 			</strategy-group>
 			<strategy-group group-key="5">
-				<property-override propertyName="numberOfInvocationsLimit" propertyValue="1000000" />
+				<property-override propertyName="numberOfInvocationsLimit" propertyValue="999999999" />
 				<property-override propertyName="perTimePeriodSeconds" propertyValue="10" />
 			</strategy-group>
 		</method-group>
