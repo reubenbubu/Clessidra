@@ -22,10 +22,7 @@
 	<!-- ConcurrencyLimiterTests -->
 	<bean name="concurrencyLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultConcurrencyLimiterStrategy">
 		<constructor-arg name="concurrencyLimit" value="5"></constructor-arg>
-	</bean>
-	<bean name="concurrencyQueuedLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultConcurrencyLimiterStrategy">
-		<constructor-arg name="concurrencyLimit" value="20"></constructor-arg>
-	</bean>
+	</bean>	
 
 	<!-- CostBasedLimiterTests -->
 	<bean name="costBasedLimiter" class="com.ccbill.clessidra.strategy.defaults.DefaultCostBasedLimiterStrategy">
