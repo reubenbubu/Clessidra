@@ -5,6 +5,10 @@
 
 - Fixed a bug with PropertyOverrideProvider
 
+## 1.0.1
+
+- Fixed a bug with PropertyOverrideProvider
+
 ## 1.0.0
 
 - Enhanced property override provider. Added support for wildcards in property override configuration strategy group key and method group.

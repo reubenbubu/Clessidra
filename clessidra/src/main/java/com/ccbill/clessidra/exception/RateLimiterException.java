@@ -13,7 +13,7 @@ import com.ccbill.clessidra.strategy.LimiterStrategyConclusion;
 public class RateLimiterException extends RuntimeException {
 
 	private LimiterStrategyConclusion conclusion;
-
+	
 	public RateLimiterException() {
 		super();
 	}

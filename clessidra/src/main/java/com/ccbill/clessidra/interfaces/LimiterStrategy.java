@@ -29,6 +29,22 @@ public interface LimiterStrategy {
 	 * @return The {@link LimiterStrategyConclusion} of this limiter strategy.
 	 */
 	public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args);
+	
+    /**
+     * Holds the logic of a particular limiter strategy 
+     * 
+     * @param methodGroup
+     *            The group name of method group.
+     * @param invocationUUID
+     *            The invocation UUID.
+     * @param args
+     *            The arguments of the annotated method.
+     * @param charged
+     *            Whether the method call should be charged towards the limit or not in the strategy.
+     *            Useful to check whether the strategy is in an exceeded state or not.            
+     * @return The {@link LimiterStrategyConclusion} of this limiter strategy.
+     */
+    public LimiterStrategyConclusion hasLimitBeenExceededChain(String methodGroup, UUID invocationUUID, Object[] args, boolean charged);	
 
 	/**
 	 * Rollback this limiter strategy only
