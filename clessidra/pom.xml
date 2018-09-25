@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ccbill</groupId>
 	<artifactId>clessidra</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 	<name>Clessidra</name>
 	<description>A library used to control (rate limit) the inflow of requests to selected methods by use of a set of strategies.</description>
